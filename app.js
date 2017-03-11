@@ -94,7 +94,7 @@ server.get('/', restify.serveStatic({
 
 server.get('/api/oauthcallback/', function (req, res, next) {  
    console.log('OAuth Callback');
-   console.log(req);
+   // console.log(req);
    var code = req.query.code;
 
    SC.authorize(code, function(err, accessToken) {
@@ -103,6 +103,7 @@ server.get('/api/oauthcallback/', function (req, res, next) {
    } else {
      // Client is now authorized and able to make API calls 
     console.log('access token:', accessToken);
+    bot.beginDialog(address, "/oauth-success", accessToken);
     }
   });
 });
