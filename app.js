@@ -62,14 +62,14 @@ bot.dialog("/profile", [
 
 	function (session, results) {
 		if (results.response.match(/login/gi)) {
-SC.init({
-  id: process.env.MY_SC_ID,
-  secret: process.env.MY_SC_SECRET,
-  uri: process.env.MY_SC_URI
-})
+      SC.init({
+        id: process.env.MY_SC_ID,
+        secret: process.env.MY_SC_SECRET,
+        uri: process.env.MY_SC_URI
+      })
 
-        url = SC.getConnectUrl();
-        console.log('URL is %s', url)
+      var url = SC.getConnectUrl();
+      console.log('URL is %s', url)
 
 			session.send(new builder.Message(session).addAttachment(
 				new builder.SigninCard(session)
