@@ -92,20 +92,17 @@ server.get('/', restify.serveStatic({
  default: '/index.html',
 }));
 
-server.get('/api/oauthcallback/', 
-//  var redirectHandler = function(req, res) {
-//  var code = req.query.code;
- 
-//  SC.authorize(code, function(err, accessToken) {
-//    if ( err ) {
-//      throw err;
-//    } else {
-//      // Client is now authorized and able to make API calls 
- //     console.log('access token:', accessToken);
- //   }
-//  });
- (req, res) => {
-   console.log('OAuthCallback');
+server.get('/api/oauthcallback/', function (req, res, next) {  
+   console.log('OAuth Callback');
    console.log(req);
-}
-);
+   var code = req.query.code;
+
+   SC.authorize(code, function(err, accessToken) {
+   if ( err ) {
+     throw err;
+   } else {
+     // Client is now authorized and able to make API calls 
+    console.log('access token:', accessToken);
+    }
+  });
+});
