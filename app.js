@@ -2,6 +2,7 @@
 var restify = require('restify'); 
 var builder = require('botbuilder'); 
 var SC = require ('node-soundcloud');
+const util = require('util');
 const expressSession = require('express-session');
 
 // Sometimes handy for debugging
@@ -105,6 +106,7 @@ SC.init({
    } else {
      // Client is now authorized and able to make API calls 
     console.log('access token: %s', accessToken);
+    console.log(util.inspect(args, false, null));
    // bot.beginDialog(address, "/oauth-success", accessToken);
     }
   });
