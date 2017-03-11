@@ -100,13 +100,13 @@ SC.init({
   uri: process.env.MY_SC_URI
 })
 
-   SC.authorize(code, function(err, accessToken) {
+   SC.authorize(code, function(err, tokens) {
    if ( err ) {
      throw err;
    } else {
      // Client is now authorized and able to make API calls 
-    console.log('access token: %s', accessToken);
-   bot.beginDialog(address, "/oauth-success", accessToken);
+    console.log('access token: %s', tokens);
+   bot.beginDialog(address, "/oauth-success", tokens);
     }
   });
 });
