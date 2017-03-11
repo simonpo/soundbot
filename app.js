@@ -105,7 +105,7 @@ SC.init({
    } else {
      // Client is now authorized and able to make API calls 
     console.log('access token: %s', accessToken);
-    bot.beginDialog(address, "/oauth-success", accessToken);
+   // bot.beginDialog(address, "/oauth-success", accessToken);
     }
   });
 });
