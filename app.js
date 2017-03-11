@@ -1,6 +1,8 @@
 // Set up our requirements
-var restify = require('restify'); 
-var builder = require('botbuilder'); 
+var restify = require('restify')
+  , builder = require('botbuilder')
+  , passport = require('passport')
+  , SoundCloudStrategy = require('passport-soundcloud').Strategy; 
 var SC = require ('node-soundcloud');
 const util = require('util');
 const expressSession = require('express-session');

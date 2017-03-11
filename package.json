@@ -26,6 +26,8 @@
     "botbuilder": "^3.7.0",
     "express-session": "^1.15.1",
     "node-soundcloud": "0.0.6",
+    "passport": "^0.3.2",
+    "passport-soundcloud": "^0.2.0",
     "restify": "^4.3.0"
   }
 }
