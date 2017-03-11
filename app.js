@@ -90,9 +90,10 @@ server.get('/', restify.serveStatic({
 
 server.get('/api/oauthcallback/', function (req, res, next) {  
    console.log('OAuth Callback');
+   console.log('ID is %s', id);
    var code = req.query.code;
    console.log(code);
-   
+
    SC.authorize(code, function(err, accessToken) {
    if ( err ) {
      throw err;
