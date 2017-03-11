@@ -93,6 +93,12 @@ server.get('/api/oauthcallback/', function (req, res, next) {
    var code = req.query.code;
    console.log(code);
 
+SC.init({
+  id: process.env.MY_SC_ID,
+  secret: process.env.MY_SC_SECRET,
+  uri: process.env.MY_SC_URI
+})
+
    SC.authorize(code, function(err, accessToken) {
    if ( err ) {
      throw err;
