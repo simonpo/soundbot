@@ -102,7 +102,7 @@ server.get('/api/oauthcallback/', function (req, res, next) {
      throw err;
    } else {
      // Client is now authorized and able to make API calls 
-    console.log('access token:', accessToken);
+    console.log('access token: %s', accessToken);
     bot.beginDialog(address, "/oauth-success", accessToken);
     }
   });
