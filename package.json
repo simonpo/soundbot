@@ -1,0 +1,31 @@
+{
+  "name": "soundbot",
+  "version": "1.0.0",
+  "description": "Experimantal bot interfacing with online music and sound services",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simonpo/soundbot.git"
+  },
+  "keywords": [
+    "bot",
+    "LUIS",
+    "music",
+    "sound"
+  ],
+  "author": "Simon Powell",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/simonpo/soundbot/issues"
+  },
+  "homepage": "https://github.com/simonpo/soundbot#readme",
+  "dependencies": {
+    "botbuilder": "^3.7.0",
+    "express-session": "^1.15.1",
+    "node-soundcloud": "0.0.6",
+    "restify": "^4.3.0"
+  }
+}
