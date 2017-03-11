@@ -25,10 +25,6 @@ server.post('/api/messages', connector.listen());
 // Add LUIS recognizer
 var recognizer = new builder.LuisRecognizer(process.env.MY_LUIS_MODEL);
 var intents = new builder.IntentDialog({ recognizers: [recognizer] });
-console.log('recogniser %s', recognizer);
-
-// Add Soundcloud API stuff
-
 
 // Create bot dialogs
 bot.dialog('/', intents);
@@ -94,9 +90,9 @@ server.get('/', restify.serveStatic({
 
 server.get('/api/oauthcallback/', function (req, res, next) {  
    console.log('OAuth Callback');
-   // console.log(req);
    var code = req.query.code;
-
+   console.log(code);
+   
    SC.authorize(code, function(err, accessToken) {
    if ( err ) {
      throw err;
