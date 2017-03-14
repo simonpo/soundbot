@@ -1,14 +1,12 @@
 // Set up our requirements
-var restify = require('restify')
-  , builder = require('botbuilder')
-  , passport = require('passport')
-  , SoundCloudStrategy = require('passport-soundcloud').Strategy; 
-var SC = require ('node-soundcloud');
-const util = require('util');
-const expressSession = require('express-session');
-
-// Sometimes handy for debugging
-// const util = require('util');
+var builder = require('botbuilder')
+//	, express = require('express')
+//	, expressSession = require('express-session')
+//	, passport = require('passport')
+	, restify = require('restify')
+//  , SoundCloudStrategy = require('passport-soundcloud').Strategy
+	, SC = require ('node-soundcloud')
+	, util = require('util');
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -94,14 +92,14 @@ server.get('/', restify.serveStatic({
 server.get('/api/oauthcallback/', function (req, res, next) {  
    console.log('OAuth Callback');
    var code = req.query.code;
-	 console.log(util.inspect(code, false, null));
+	 console.log(util.inspect(res, false, null));
    console.log("Code is: %s", code);
 
-SC.init({
-  id: process.env.MY_SC_ID,
-  secret: process.env.MY_SC_SECRET,
-  uri: process.env.MY_SC_URI
-})
+	SC.init({
+  	id: process.env.MY_SC_ID,
+  	secret: process.env.MY_SC_SECRET,
+  	uri: process.env.MY_SC_URI
+	})
 
    SC.authorize(code, function(err, accessToken) {
    if ( err ) {
@@ -109,7 +107,7 @@ SC.init({
    } else {
      // Client is now authorized and able to make API calls 
     console.log('access token: %s', accessToken);
-	  bot.dialog("/oauth-success", function (session, accessToken) {  
+	  server.get("/oauth-success", function (session, accessToken) {  
   	session.send('Authenticated succesfully!');
 		});
 
