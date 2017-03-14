@@ -100,7 +100,8 @@ server.get('/api/oauthcallback/',
  //   console.log(req);
     console.log(util.inspect(req, false, null));
     console.log('Welcome to %s', req.user)
-    res.send('Welcome ' + req.user); 
+    console.log(util.inspect(req.user, false, null));
+    return res.send('Welcome ' + req.user); 
 });
 
 //=========================================================
