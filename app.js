@@ -96,8 +96,9 @@ server.get('/login', function (req, res, next) {
 server.get('/api/oauthcallback/',
   passport.authenticate('soundcloud', { failureRedirect: '/login' }),
   (req, res) => {
-    console.log('OAuthCallback');
-    console.log(req);
+    console.log('Starting OAuthCallback - here is what I got:' );
+ //   console.log(req);
+    console.log(util.inspect(req, false, null));
     console.log('Welcome to %s', req.username)
     res.send('Welcome ' + req.username); 
 });
