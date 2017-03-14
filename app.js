@@ -2,7 +2,6 @@
 var builder = require('botbuilder')
 	, express = require('express')
   , expressSession = require('express-session')
-  , SC = require ('node-soundcloud')
   , passport = require('passport')
   , SoundCloudStrategy = require('passport-soundcloud').Strategy
   , querystring = require('querystring')
@@ -38,7 +37,7 @@ server.use(expressSession({ secret: 'keyboard cat', resave: true, saveUninitiali
 server.use(passport.initialize());
 
 server.get('/login', function (req, res, next) {
-  passport.authenticate('passport-soundcloud', { failureRedirect: '/login', customState: req.query.address, resourceURL: process.env.MICROSOFT_RESOURCE }, function (err, user, info) {
+  passport.authenticate('passport', { failureRedirect: '/login', customState: req.query.address, resourceURL: process.env.MICROSOFT_RESOURCE }, function (err, user, info) {
     console.log('login');
     if (err) {
       console.log(err);
@@ -58,7 +57,7 @@ server.get('/login', function (req, res, next) {
 });
 
 server.get('/api/oauthcallback/',
-  passport.authenticate('passport-soundcloud', { failureRedirect: '/login' }),
+  passport.authenticate('passport', { failureRedirect: '/login' }),
   (req, res) => {
     console.log('OAuthCallback');
     console.log(req);
