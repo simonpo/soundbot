@@ -100,6 +100,7 @@ server.get('/api/oauthcallback/',
     console.log('Starting OAuthCallback - here is what I got:');
     console.log(req);
     // const address = JSON.parse(req.query.state);
+    const address = '1234';
     // console.log('Address is %s', address);
 
     const messageData = { accessToken: req.user.accessToken, refreshToken: req.user.refreshToken, userName: req.user.user };
