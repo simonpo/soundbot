@@ -98,16 +98,17 @@ server.get('/api/oauthcallback/',
   (req, res) => {
     console.log('Starting OAuthCallback - here is what I got:');
     console.log(req);
-    const address = JSON.parse(req.query.state);
-    console.log('Address is %s', address);
+    // const address = JSON.parse(req.query.state);
+    // console.log('Address is %s', address);
 
-    const messageData = { accessToken: req.user.accessToken, refreshToken: req.user.refreshToken, name: req.user.username };
+    // const messageData = { accessToken: req.user.accessToken, refreshToken: req.user.refreshToken, name: req.user.username };
     
-    var continueMsg = new builder.Message().address(address).text(JSON.stringify(messageData));
-    console.log(continueMsg);
+    // var continueMsg = new builder.Message().address(address).text(JSON.stringify(messageData));
+    // console.log(continueMsg);
 
-    bot.receive(continueMsg.toMessage());
-    res.send('Welcome ' + req.userAgent.displayName ); 
+    // bot.receive(continueMsg.toMessage());
+    // res.send('Welcome ' + req.userAgent.displayName );
+    builder.Prompts.text(session, "Well hello."); 
 });
 
 //=========================================================
