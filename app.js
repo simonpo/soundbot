@@ -98,15 +98,8 @@ server.get('/api/oauthcallback/',
   (req, res) => {
     console.log('OAuthCallback');
     console.log(req);
-//    const address = JSON.parse(req.query.state);
-//    const magicCode = crypto.randomBytes(4).toString('hex');
-//    const messageData = { magicCode: magicCode, accessToken: req.user.accessToken, refreshToken: req.user.refreshToken, userId: address.user.id, name: req.user.displayName, email: req.user.preferred_username };
-    
-//    var continueMsg = new builder.Message().address(address).text(JSON.stringify(messageData));
-//    console.log(continueMsg.toMessage());
-
-//    bot.receive(continueMsg.toMessage());
-    res.send('Welcome ' + req.user.username); // + '! Please copy this number and paste it back to your chat so your authentication can complete: ' + magicCode);
+    console.log('Welcome to %s', req.username)
+    res.send('Welcome ' + req.username); 
 });
 
 //=========================================================
