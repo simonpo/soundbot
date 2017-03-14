@@ -99,8 +99,8 @@ server.get('/api/oauthcallback/',
     console.log('Starting OAuthCallback - here is what I got:' );
  //   console.log(req);
     console.log(util.inspect(req, false, null));
-    console.log('Welcome to %s', req.username)
-    res.send('Welcome ' + req.username); 
+    console.log('Welcome to %s', req.user)
+    res.send('Welcome ' + req.user); 
 });
 
 //=========================================================
