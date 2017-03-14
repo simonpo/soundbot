@@ -5,7 +5,7 @@ var builder = require('botbuilder')
   , SC = require ('node-soundcloud')
   , passport = require('passport')
   , SoundCloudStrategy = require('passport-soundcloud').Strategy
-  , querystring = require('quesrystring')
+  , querystring = require('querystring')
   , restify = require('restify')
 	, util = require('util');
 
