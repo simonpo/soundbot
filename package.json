@@ -24,10 +24,12 @@
   "homepage": "https://github.com/simonpo/soundbot#readme",
   "dependencies": {
     "botbuilder": "^3.7.0",
+    "express": "^4.15.2",
     "express-session": "^1.15.1",
     "node-soundcloud": "0.0.6",
     "passport": "^0.3.2",
     "passport-soundcloud": "^0.2.0",
-    "restify": "^4.3.0"
+    "restify": "^4.3.0",
+    "util": "^0.10.3"
   }
 }

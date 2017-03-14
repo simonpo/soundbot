@@ -83,7 +83,7 @@ passport.deserializeUser(function(id, done) {
 // Use the v2 endpoint (applications configured by apps.dev.microsoft.com)
 // For passport-azure-ad v2.0.0, had to set realm = 'common' to ensure authbot works on azure app service
 var realm = 'simonpo-soundbot.azurewebsites.net'; // AZUREAD_APP_REALM; 
-var AUTHBOT_CALLBACKHOST = 'simonpo-soundbot.azurewebsites.net';
+var AUTHBOT_CALLBACKHOST = '127.0.0.1';
 let oidStrategyv2 = {
   redirectUrl: AUTHBOT_CALLBACKHOST + '/api/oauthcallback',
   realm: realm,
