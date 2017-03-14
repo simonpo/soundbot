@@ -43,7 +43,7 @@ var user = new Users(itemManager);
 app.get('/', taskList.showTasks.bind(taskList));
 app.post('/addtask', taskList.addTask.bind(taskList));
 app.post('/completetask', taskList.completeTask.bind(taskList));
-app.get('/user', user.get.bind(user));
+app.get('/api/user', user.get.bind(user));
 app.set('view engine', 'jade');
 
 // catch 404 and forward to error handler
