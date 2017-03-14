@@ -1,13 +1,13 @@
  var DocumentDBClient = require('documentdb').DocumentClient;
  var docdbUtils = require('./docdbUtils');
- 
- function ItemManager(documentDBClient, databaseId, collectionId) {
-   this.client = documentDBClient;
-   this.databaseId = databaseId;
-   this.collectionId = collectionId;
 
-   this.database = null;
-   this.collection = null;
+ function ItemManager(documentDBClient, databaseId, collectionId) {
+     this.client = documentDBClient;
+     this.databaseId = databaseId;
+     this.collectionId = collectionId;
+
+     this.database = null;
+     this.collection = null;
  }
 
  ItemManager.prototype = {
@@ -59,7 +59,28 @@
          });
      },
 
-     updateItem: function (itemId, callback) {
+     deleteItem: function (itemId, callback) {
+         var self = this;
+
+         var querySpec = {
+             query: 'DELEMTE FROM root r WHERE r.id = @id',
+             parameters: [{
+                 name: '@id',
+                 value: itemId
+             }]
+         };
+
+         self.client.queryDocuments(self.collection._self, querySpec).toArray(function (err, results) {
+             if (err) {
+                 callback(err);
+
+             } else {
+                 callback(null, results[0]);
+             }
+         });
+     },
+
+     updateItem: function (itemId, item, callback) {
          var self = this;
 
          self.getItem(itemId, function (err, doc) {
@@ -67,8 +88,7 @@
                  callback(err);
 
              } else {
-                 doc.completed = true;
-
+                 doc = Object.assign(doc, item);
                  self.client.replaceDocument(doc._self, doc, function (err, replaced) {
                      if (err) {
                          callback(err);
