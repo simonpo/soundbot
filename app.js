@@ -100,7 +100,7 @@ server.get('/api/oauthcallback/',
     const address = JSON.parse(req.query.state);
     console.log('Address is %s', address);
 
-    const messageData = { accessToken: req.user.accessToken, refreshToken: req.user.refreshToken, userId: address.user.id, name: req.user.displayName, email: req.user.preferred_username };
+    const messageData = { accessToken: req.user.accessToken, refreshToken: req.user.refreshToken, name: req.user.username };
     
     var continueMsg = new builder.Message().address(address).text(JSON.stringify(messageData));
     console.log(continueMsg.toMessage());
