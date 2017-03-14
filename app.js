@@ -106,7 +106,7 @@ server.get('/api/oauthcallback/',
 //    console.log(continueMsg.toMessage());
 
 //    bot.receive(continueMsg.toMessage());
-    res.send('Welcome ' + req.user.username; // + '! Please copy this number and paste it back to your chat so your authentication can complete: ' + magicCode);
+    res.send('Welcome ' + req.user.username); // + '! Please copy this number and paste it back to your chat so your authentication can complete: ' + magicCode);
 });
 
 //=========================================================
