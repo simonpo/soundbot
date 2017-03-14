@@ -165,7 +165,7 @@ bot.dialog('signin', [
 bot.dialog('/', [
   (session, args, next) => {
     if (!(session.userData.userName && session.userData.accessToken && session.userData.refreshToken)) {
-      session.send("Welcome! This bot retrieves the latest email for you after you login.");
+      session.send("Welcome! This bot helps you interact with SoundCloud - after you login.");
       session.beginDialog('signinPrompt');
     } else {
       next();
