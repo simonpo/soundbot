@@ -94,6 +94,7 @@ server.get('/', restify.serveStatic({
 server.get('/api/oauthcallback/', function (req, res, next) {  
    console.log('OAuth Callback');
    var code = req.query.code;
+	 console.log(util.inspect(code, false, null));
    console.log("Code is: %s", code);
 
 SC.init({
