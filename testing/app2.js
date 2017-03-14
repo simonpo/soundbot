@@ -9,9 +9,10 @@ var DocumentDBClient = require('documentdb').DocumentClient;
 var config = require('./../config');
 var TaskList = require('./../routes/tasklist');
 var TaskDao = require('./../models/taskDao');
+var ItemManager = require('./../models/ItemManager');
 
 var index = require('./../routes/index');
-var users = require('./../routes/users');
+var Users = require('./../routes/users');
 
 var app = express();
 
@@ -32,13 +33,17 @@ app.use(express.static(path.join(__dirname, '../public')));
 var docDbClient = new DocumentDBClient(config.host, {
     masterKey: config.authKey
 });
+var itemManager = new ItemManager(docDbClient, config.databaseId, config.collectionId);
 var taskDao = new TaskDao(docDbClient, config.databaseId, config.collectionId);
 var taskList = new TaskList(taskDao);
 taskDao.init();
+itemManager.init();
+var user = new Users(itemManager);
 
 app.get('/', taskList.showTasks.bind(taskList));
 app.post('/addtask', taskList.addTask.bind(taskList));
 app.post('/completetask', taskList.completeTask.bind(taskList));
+app.get('/user', user.get.bind(user));
 app.set('view engine', 'jade');
 
 // catch 404 and forward to error handler

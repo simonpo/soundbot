@@ -1,9 +1,31 @@
-var express = require('express');
-var router = express.Router();
+var DocumentDBClient = require('documentdb').DocumentClient;
+var async = require('async');
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+function Users(ItemManager) {
+  this.ItemManager = ItemManager;
+}
 
-module.exports = router;
+Users.prototype = {
+  /* GET users listing. */
+  get: function (req, res, next) {
+     var self = this;
+
+         var querySpec = {
+             query: 'SELECT * FROM root r WHERE r.dataType=@dataType',
+             parameters: [{
+                 name: '@dataType',
+                 value: 'user'
+             }]
+         };
+
+         self.ItemManager.find(querySpec, function (err, items) {
+             if (err) {
+                 throw (err);
+             }
+
+             res.send(items);
+         });
+  }
+}
+
+module.exports = Users;
