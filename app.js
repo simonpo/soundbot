@@ -142,17 +142,18 @@ function login(session) {
   const address = session.message.address;
 
   // TODO: Encrypt the address string
-  const link = AUTHBOT_CALLBACKHOST + '/login?address=' + querystring.escape(JSON.stringify(address));
+  // const link = AUTHBOT_CALLBACKHOST + '/login?address=' + querystring.escape(JSON.stringify(address));
+  const link = '/auth/soundcloud';
   
 
   var msg = new builder.Message(session) 
     .attachments([ 
         new builder.SigninCard(session) 
-            .text("Please click this link to sign in first.") 
+            .text("Click here to sign in.") 
             .button("signin", link) 
     ]); 
   session.send(msg);
-  builder.Prompts.text(session, "You must first sign into your account.");
+  builder.Prompts.text(session, "You must sign into your account.");
 }
 
 bot.dialog('signin', [
