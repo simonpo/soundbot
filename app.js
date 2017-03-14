@@ -37,7 +37,7 @@ server.use(expressSession({ secret: 'keyboard cat', resave: true, saveUninitiali
 server.use(passport.initialize());
 
 server.get('/login', function (req, res, next) {
-  passport.authenticate('passport', { failureRedirect: '/login', customState: req.query.address, resourceURL: process.env.MICROSOFT_RESOURCE }, function (err, user, info) {
+  passport.authenticate(passport, { failureRedirect: '/login', customState: req.query.address, resourceURL: process.env.MICROSOFT_RESOURCE }, function (err, user, info) {
     console.log('login');
     if (err) {
       console.log(err);
@@ -57,7 +57,7 @@ server.get('/login', function (req, res, next) {
 });
 
 server.get('/api/oauthcallback/',
-  passport.authenticate('passport', { failureRedirect: '/login' }),
+  passport.authenticate(passport, { failureRedirect: '/login' }),
   (req, res) => {
     console.log('OAuthCallback');
     console.log(req);
@@ -79,59 +79,6 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(id, done) {
   done(null, id);
 });
-
-// Use the v2 endpoint (applications configured by apps.dev.microsoft.com)
-// For passport-azure-ad v2.0.0, had to set realm = 'common' to ensure authbot works on azure app service
-var realm = 'simonpo-soundbot.azurewebsites.net'; // AZUREAD_APP_REALM; 
-var AUTHBOT_CALLBACKHOST = 'simonpo-soundbot.azurewebsites.net';
-let oidStrategyv2 = {
-  redirectUrl: AUTHBOT_CALLBACKHOST + '/api/oauthcallback',
-  realm: realm,
-  clientID: process.env.MY_APP_ID,
-  clientSecret: process.env.MY_APP_PASSWORD,
-  identityMetadata: 'https://login.microsoftonline.com/' + realm + '/v2.0/.well-known/openid-configuration',
-  skipUserProfile: false,
-  validateIssuer: false,
-  //allowHttpForRedirectUrl: true,
-  responseType: 'code',
-  responseMode: 'query',
-  scope:['email', 'profile', 'offline_access', 'https://outlook.office.com/mail.read'],
-  passReqToCallback: true
-};
-
-// Use the v1 endpoint (applications configured by manage.windowsazure.com)
-// This works against Azure AD
-let oidStrategyv1 = {
-  redirectUrl: AUTHBOT_CALLBACKHOST +'/api/oauthcallback',
-  realm: realm,
-  clientID: process.env.MY_APP_ID,
-  clientSecret: process.env.MY_APP_PASSWORD,
-  validateIssuer: false,
-  //allowHttpForRedirectUrl: true,
-  oidcIssuer: undefined,
-  identityMetadata: 'https://login.microsoftonline.com/' + realm + '/.well-known/openid-configuration',
-  skipUserProfile: true,
-  responseType: 'code',
-  responseMode: 'query',
-  passReqToCallback: true
-};
-
-// let strategy = null;
-let strategy = oidStrategyv2;
-
-// passport.use(new SoundCloudStrategy(strategy,
-//  (req, iss, sub, profile, accessToken, refreshToken, done) => {
-//    if (!profile.displayName) {
-//      return done(new Error("No oid found"), null);
-//    }
-    // asynchronous verification, for effect...
-//    process.nextTick(() => {
-//      profile.accessToken = accessToken;
-//      profile.refreshToken = refreshToken;
-//      return done(null, profile);
-//    });
-//  }
-//));
 
 // Use the SoundCloudStrategy within Passport.
 //   Strategies in Passport require a `verify` function, which accept
@@ -161,16 +108,13 @@ passport.use(new SoundCloudStrategy({
 function login(session) {
   // Generate signin link
   const address = session.message.address;
-
-  // TODO: Encrypt the address string
-  // const link = AUTHBOT_CALLBACKHOST + '/login?address=' + querystring.escape(JSON.stringify(address));
   const link = 'https://soundcloud.com/connect?client_id=' + process.env.MY_SC_ID + '&client_secret=' + process.env.MY_SC_SECRET + '&redirect_uri=' + process.env.MY_SC_URI + '&response_type=code&scope=non-expiring';
   
 
   var msg = new builder.Message(session) 
     .attachments([ 
         new builder.SigninCard(session) 
-            .text("Click here to sign in.") 
+            .text("Click here to sign in with SoundCloud.") 
             .button("signin", link) 
     ]); 
   session.send(msg);
