@@ -97,7 +97,7 @@ server.get('/api/oauthcallback/',
   passport.authenticate('soundcloud', { failureRedirect: '/login' }),
   (req, res) => {
     console.log('Starting OAuthCallback - here is what I got:\n %s', req );
-    const address = JSON.part(req.query.state);
+    const address = JSON.parse(req.query.state);
     console.log('Address is %s', address);
 
     const messageData = { accessToken: req.user.accessToken, refreshToken: req.user.refreshToken, userId: address.user.id, name: req.user.displayName, email: req.user.preferred_username };
