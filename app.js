@@ -96,19 +96,21 @@ server.get('/login', function (req, res, next) {
 server.get('/api/oauthcallback/',
   passport.authenticate('soundcloud', { failureRedirect: '/login' }),
   (req, res) => {
+    // we need these things: session.userData.userName && session.userData.accessToken && session.userData.refreshToken     
     console.log('Starting OAuthCallback - here is what I got:');
     console.log(req);
     // const address = JSON.parse(req.query.state);
     // console.log('Address is %s', address);
 
-    // const messageData = { accessToken: req.user.accessToken, refreshToken: req.user.refreshToken, name: req.user.username };
+    const messageData = { accessToken: req.user.accessToken, refreshToken: req.user.refreshToken, userName: req.user.user };
+    console.log('Messagedata: %s', messageData);
     
     // var continueMsg = new builder.Message().address(address).text(JSON.stringify(messageData));
     // console.log(continueMsg);
 
     // bot.receive(continueMsg.toMessage());
     // res.send('Welcome ' + req.userAgent.displayName );
-    builder.Prompts.text(session, "Well hello."); 
+    session.send('Well hello.'); 
 });
 
 //=========================================================
@@ -127,7 +129,6 @@ function login(session) {
             .button("signin", link) 
     ]); 
   session.send(msg);
-//  builder.Prompts.text(session, "You must sign into your account.");
 }
 
 bot.dialog('signin', [
@@ -140,7 +141,7 @@ bot.dialog('signin', [
 bot.dialog('/', [
   (session, args, next) => {
     if (!(session.userData.userName && session.userData.accessToken && session.userData.refreshToken)) {
-      session.send("Welcome! This bot helps you interact with SoundCloud - after you login.");
+      session.send("This bot helps you interact with SoundCloud - after you login.");
       session.beginDialog('signinPrompt');
     } else {
       next();
