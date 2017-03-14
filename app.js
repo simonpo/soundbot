@@ -120,15 +120,37 @@ let oidStrategyv1 = {
 // let strategy = null;
 let strategy = oidStrategyv2;
 
-passport.use(new SoundCloudStrategy(strategy,
-  (req, iss, sub, profile, accessToken, refreshToken, done) => {
-    if (!profile.displayName) {
-      return done(new Error("No oid found"), null);
-    }
+// passport.use(new SoundCloudStrategy(strategy,
+//  (req, iss, sub, profile, accessToken, refreshToken, done) => {
+//    if (!profile.displayName) {
+//      return done(new Error("No oid found"), null);
+//    }
     // asynchronous verification, for effect...
-    process.nextTick(() => {
-      profile.accessToken = accessToken;
-      profile.refreshToken = refreshToken;
+//    process.nextTick(() => {
+//      profile.accessToken = accessToken;
+//      profile.refreshToken = refreshToken;
+//      return done(null, profile);
+//    });
+//  }
+//));
+
+// Use the SoundCloudStrategy within Passport.
+//   Strategies in Passport require a `verify` function, which accept
+//   credentials (in this case, an accessToken, refreshToken, and SoundCloud
+//   profile), and invoke a callback with a user object.
+passport.use(new SoundCloudStrategy({
+    clientID: process.env.MY_SC_ID,
+    clientSecret: process.env.MY_SC_SECRET,
+    callbackURL: process.env.MY_SC_URI
+  },
+  function(accessToken, refreshToken, profile, done) {
+    // asynchronous verification, for effect...
+    process.nextTick(function () {
+      
+      // To keep the example simple, the user's SoundCloud profile is returned
+      // to represent the logged-in user.  In a typical application, you would
+      // want to associate the SoundCloud account with a user record in your
+      // database, and return that user instead.
       return done(null, profile);
     });
   }
