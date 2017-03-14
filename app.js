@@ -104,7 +104,7 @@ server.get('/api/oauthcallback/',
 
     const messageData = { accessToken: req.user.accessToken, refreshToken: req.user.refreshToken, userName: req.user.user };
     console.log('Messagedata: %s', messageData);
-    
+    console.log(util.inspect(messageData, false, null));
     // var continueMsg = new builder.Message().address(address).text(JSON.stringify(messageData));
     // console.log(continueMsg);
 
