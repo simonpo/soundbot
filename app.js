@@ -99,7 +99,14 @@ server.get('/api/oauthcallback/',
     console.log('Starting OAuthCallback - here is what I got:\n %s', req );
     const address = JSON.part(req.query.state);
     console.log('Address is %s', address);
-    return res.send('Welcome ', { user : req.user }); 
+
+    const messageData = { accessToken: req.user.accessToken, refreshToken: req.user.refreshToken, userId: address.user.id, name: req.user.displayName, email: req.user.preferred_username };
+    
+    var continueMsg = new builder.Message().address(address).text(JSON.stringify(messageData));
+    console.log(continueMsg.toMessage());
+
+    bot.receive(continueMsg.toMessage());
+    res.send('Welcome ' + req.userAgent.displayName ); 
 });
 
 //=========================================================
