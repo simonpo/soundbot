@@ -1,12 +1,13 @@
 // Set up our requirements
-var express = require('express')
-	, restify = require('restify')
-  , builder = require('botbuilder')
+var builder = require('botbuilder')
+	, express = require('express')
+  , expressSession = require('express-session')
+  , SC = require ('node-soundcloud')
   , passport = require('passport')
   , SoundCloudStrategy = require('passport-soundcloud').Strategy
-	, SC = require ('node-soundcloud')
+  , querystring = require('quesrystring')
+  , restify = require('restify')
 	, util = require('util');
-const expressSession = require('express-session');
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -83,7 +84,7 @@ passport.deserializeUser(function(id, done) {
 // Use the v2 endpoint (applications configured by apps.dev.microsoft.com)
 // For passport-azure-ad v2.0.0, had to set realm = 'common' to ensure authbot works on azure app service
 var realm = 'simonpo-soundbot.azurewebsites.net'; // AZUREAD_APP_REALM; 
-var AUTHBOT_CALLBACKHOST = '127.0.0.1';
+var AUTHBOT_CALLBACKHOST = 'simonpo-soundbot.azurewebsites.net';
 let oidStrategyv2 = {
   redirectUrl: AUTHBOT_CALLBACKHOST + '/api/oauthcallback',
   realm: realm,
