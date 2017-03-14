@@ -1,6 +1,6 @@
 // Set up our requirements
 var builder = require('botbuilder')
-	, express = require('express')
+  , express = require('express')
   , expressSession = require('express-session')
   , passport = require('passport')
   , SoundCloudStrategy = require('passport-soundcloud').Strategy
@@ -96,11 +96,10 @@ server.get('/login', function (req, res, next) {
 server.get('/api/oauthcallback/',
   passport.authenticate('soundcloud', { failureRedirect: '/login' }),
   (req, res) => {
-    console.log('Starting OAuthCallback - here is what I got:' );
- //   console.log(req);
-    console.log(util.inspect(req, false, null));
-    console.log('Welcome to %s', { userName : req.user });
-    return res.send('Welcome '); 
+    console.log('Starting OAuthCallback - here is what I got:\n %s', req );
+    const address = JSON.part(req.query.state);
+    console.log('Address is %s', address);
+    return res.send('Welcome ', { user : req.user }); 
 });
 
 //=========================================================
