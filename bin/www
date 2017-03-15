@@ -4,6 +4,9 @@
  * Module dependencies.
  */
 
+var appInsights = require("applicationinsights");
+appInsights.setup("fb1d760a-0f4f-4f11-9f4a-658196e6f549").start();
+
 var app = require('../appWeb');
 var debug = require('debug')('todo:server');
 var http = require('http');
