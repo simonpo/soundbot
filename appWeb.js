@@ -6,18 +6,18 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var DocumentDBClient = require('documentdb').DocumentClient;
-var config = require('./../config');
-var TaskList = require('./../routes/tasklist');
-var TaskDao = require('./../models/taskDao');
-var ItemManager = require('./../models/ItemManager');
+var config = require('./config');
+var TaskList = require('./routes/tasklist');
+var TaskDao = require('./models/taskDao');
+var ItemManager = require('./models/ItemManager');
 
-var index = require('./../routes/index');
-var Users = require('./../routes/users');
+var index = require('./routes/index');
+var ItemRepository = require('./routes/repository');
 
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, '../views'));
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 var docDbClient = new DocumentDBClient(config.host, {
     masterKey: config.authKey
@@ -38,17 +38,17 @@ var taskDao = new TaskDao(docDbClient, config.databaseId, config.collectionId);
 var taskList = new TaskList(taskDao);
 taskDao.init();
 itemManager.init();
-var user = new Users(itemManager);
+var itemRepository = new ItemRepository(itemManager);
 
 app.get('/', taskList.showTasks.bind(taskList));
 app.post('/addtask', taskList.addTask.bind(taskList));
 app.post('/completetask', taskList.completeTask.bind(taskList));
 
-app.get('/api/user', user.get.bind(user));
-app.get('/api/user/:user_id', user.getItem.bind(user));
-app.put('/api/user/', user.put.bind(user));
-app.post('/api/user/:user_id', user.post.bind(user));
-app.delete('/api/user/:user_id', user.delete.bind(user));
+app.get('/api/:type/get', itemRepository.get.bind(itemRepository));
+app.get('/api/:type/:user_id', itemRepository.getItem.bind(itemRepository));
+app.put('/api/:type', itemRepository.put.bind(itemRepository));
+app.post('/api/:type/:user_id', itemRepository.post.bind(itemRepository));
+app.delete('/api/:type/:user_id', itemRepository.delete.bind(itemRepository));
 
 app.set('view engine', 'jade');
 

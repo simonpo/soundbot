@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require('../testing/app2');
+var app = require('../appWeb');
 var debug = require('debug')('todo:server');
 var http = require('http');
 

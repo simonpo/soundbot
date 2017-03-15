@@ -14,7 +14,7 @@ Users.prototype = {
       query: 'SELECT * FROM root r WHERE r.dataType=@dataType',
       parameters: [{
         name: '@dataType',
-        value: 'user'
+        value: req.params.type
       }]
     };
 
@@ -51,7 +51,7 @@ Users.prototype = {
   put: function (req, res, next) {
     var self = this;
 
-    self.ItemManager.addItem(req.body, 'user', function (err, item) {
+    self.ItemManager.addItem(req.body, req.params.type, function (err, item) {
       if (err) {
         throw (err);
       }
